@@ -1,8 +1,11 @@
 import requests
+from config import Config
 
 
 def first_request():
-    response = requests.get('https://playground.learnqa.ru/api/hello')
+    payload = {"name": "Maksim"}
+    method_url = Config.API_URL + '/hello'
+    response = requests.get(url=method_url, params=payload)
     print(response.text)
 
 
@@ -12,7 +15,7 @@ def task_3():
 
 
 def task_4():
-    response = requests.get('https://playground.learnqa.ru/api/get_text')
+    response = requests.get(Config.API_URL + '/get_text')
     print(response.text)
 
 
