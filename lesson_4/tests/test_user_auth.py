@@ -1,9 +1,11 @@
 import pytest
+import allure
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from lib.my_requests import MyRequests
 
 
+@allure.epic("Теста авторизации")
 class TestUserAuth(BaseCase):
     exclude_params = [
         ("no cookies"),
@@ -19,6 +21,7 @@ class TestUserAuth(BaseCase):
         self.token = self.get_header(response1, "x-csrf-token")
         self.user_auth_from_auth_method = self.get_json_value(response1, "user_id")
 
+    @allure.description("Тест успешной авторизации пользователя")
     def test_auth_user(self):
         response2 = MyRequests.get(url="/user/auth",
                                    headers={"x-csrf-token": self.token},
@@ -31,6 +34,7 @@ class TestUserAuth(BaseCase):
             error_message="User id from auth method not equal user id from check method"
         )
 
+    @allure.description("Тест неправильной авторизации пользователя без headers или cookies")
     @pytest.mark.parametrize("condition", exclude_params)
     def test_auth_negative_check(self, condition):
 

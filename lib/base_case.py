@@ -1,5 +1,6 @@
 import json.decoder
 from requests import Response
+from datetime import datetime
 
 
 class BaseCase:
@@ -22,3 +23,15 @@ class BaseCase:
             assert False, f"Response not in JSON format. Response text is '{response.text}'"
         assert name in response_as_dict, f"Response JSON doesn't have key '{name}'"
         return response_as_dict[name]
+
+    def prepare_registration_data(self, email=None):
+        if not email:
+            base_part = "learnqa"
+            random_part = f"{datetime.now().strftime('%m%d%Y%H%M%S')}"
+            domain = 'example.com'
+            email = f"{base_part}{random_part}@{domain}"
+        return {"password": "123",
+                "username": "learnqa",
+                "firstName": "learnqa",
+                "lastName": "learnqa",
+                "email": email}
